@@ -1,5 +1,14 @@
 <template>
   <div class="w-full">
+    <!-- Transition -->
+    <div class="block py-4 h-20">
+      <transition name="fade" @enter="enter">
+        <p class="text-center text-4xl font-light" v-show="showTransition">
+          {{ lastDisplay }}
+        </p>
+      </transition>
+      <!-- /Transition -->
+    </div>
     <div class="mb-4 grid gap-4 grid-cols-4 grid-row-6">
       <!-- Clean Number -->
       <div class="col-start-1 col-span-1 row-start-1">
@@ -12,7 +21,7 @@
       <div
         class="col-start-2 col-span-4 row-start-1 flex items-center justify-end"
       >
-        <div class="text-white">{{ display }}</div>
+        <div class="text-orange-400">{{ display }}</div>
       </div>
     </div>
     <!-- Grid Buttons Numerals -->
@@ -38,11 +47,13 @@ export default {
   data() {
     return {
       display: 0,
+      lastDisplay: null,
       oldNumber: null,
-      currentNum: null,
+      currentNumber: null,
       operation: null,
       results: null,
       values: [1, 2, 3, "+", 4, 5, 6, "-", 7, 8, 9, "*", 0, ".", "=", "/"],
+      showTransition: false,
     };
   },
   // watch: {
@@ -58,8 +69,10 @@ export default {
       return /[=]/.test(value);
     },
     setOperation(value) {
-      this.oldNumber = this.currentNumber;
-      this.currentNumber = null;
+      if (!this.operation) {
+        this.oldNumber = this.currentNumber;
+        this.currentNumber = null;
+      }
       this.operation = value;
     },
     setEquals() {
@@ -89,6 +102,13 @@ export default {
           resultNum = currentNumber;
       }
 
+      // If NaN or Infinity returned
+      if (!isFinite(resultNum)) {
+        if (isNaN(resultNum)) { // If result is not a number; set off by, eg, double-clicking operators
+          resultNum = "You broke it!";
+        }
+      }
+
       // Set results in component data
       this.results = resultNum;
       this.display = this.results;
@@ -106,14 +126,22 @@ export default {
       let { display, currentNumber, results } = this;
       let numToDisplay;
 
+      // Create a Header animation
+      this.lastDisplay = value;
+      this.showTransition = true;
+
       // If have a remains of results
       if (results) {
         this.resetDisplay();
       }
-      // When active a action in buttons, call the current function
-      if (!currentNumber) {
+
+      // When display is equals a zero or number is null clean display
+      if (this.display == 0 || !this.currentNumber) {
         currentNumber = "";
-      } else if (!this.isNumber(digit) && !this.isEquals(digit)) {
+      } 
+      
+      // When active a action in buttons, call the current function
+      if (!this.isNumber(digit) && !this.isEquals(digit)) {
         return this.setOperation(value);
       } else if (this.isEquals(digit)) {
         return this.setEquals();
@@ -123,6 +151,34 @@ export default {
       this.currentNumber = currentNumber + digit;
       this.display = this.currentNumber;
     },
+    /* Transition Effect */
+    enter: function (el, done) {
+      setTimeout(() => this.showTransition = false, 300);
+    },
   },
 };
 </script>
+
+<style>
+  @keyframes zoom {
+    0% {
+      transform: scale(0.2);
+      opacity: 0;
+    }
+
+    70% {
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .fade-enter-active {
+    animation: zoom 0.3s;
+  }
+  .fade-enter /* .fade-leave-active below version 2.1.8 */ {
+    animation: zoom 0.3s;
+  }
+</style>

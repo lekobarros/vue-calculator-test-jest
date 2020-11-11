@@ -29,8 +29,6 @@
     -webkit-text-fill-color: transparent;
     color: #8c5059;
     font-weight: 400;
-    margin: 0 auto 2em;
-    max-width: 9em;
   }
 
   .calculator {
