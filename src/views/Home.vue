@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center mx-auto w-full max-w-xs min-h-screen">
-    <div class="">
+    <div class="mx-auto">
       <!-- Header Element -->
       <header class="block text-center">
         <h1 class="text-3xl font-light">Vue Jest Test Calculator</h1>
