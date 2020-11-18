@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div id="calculator" class="w-full">
     <!-- Transition -->
     <div class="block py-4 h-20">
       <transition name="fade" @enter="enter">
@@ -26,10 +26,14 @@
     </div>
     <!-- Grid Buttons Numerals -->
     <div class="grid gap-4 grid-cols-4 grid-row-5">
-      <div v-for="(item, index) in values" :key="`calc-btn-${index}`">
+      <div
+        v-for="(item, index) in values"
+        :key="`calc-btn-${index}`"
+      >
         <CalculatorButton
-          :value="item"
+          :value="item.value"
           @update-display="changeDisplay"
+          :class="`btn-${item.className}`"
         ></CalculatorButton>
       </div>
     </div>
@@ -52,7 +56,72 @@ export default {
       currentNumber: null,
       operation: null,
       results: null,
-      values: [1, 2, 3, "+", 4, 5, 6, "-", 7, 8, 9, "*", 0, ".", "=", "/"],
+      values: [
+        {
+          value: 1,
+          className: "one",
+        },
+        {
+          value: 2,
+          className: "two",
+        },
+        {
+          value: 3,
+          className: "tree",
+        },
+        {
+          value: "+",
+          className: "plus",
+        },
+        {
+          value: 4,
+          className: "four",
+        },
+        {
+          value: 5,
+          className: "five",
+        },
+        {
+          value: 6,
+          className: "six",
+        },
+        {
+          value: "-",
+          className: "minum",
+        },
+        {
+          value: 7,
+          className: "seven",
+        },
+        {
+          value: 8,
+          className: "eigth",
+        },
+        {
+          value: 9,
+          className: "nine",
+        },
+        {
+          value: "*",
+          className: "multiplication",
+        },
+        {
+          value: 0,
+          className: "zero",
+        },
+        {
+          value: ".",
+          className: "point",
+        },
+        {
+          value: "=",
+          className: "equals",
+        },
+        {
+          value: '/',
+          className: "division",
+        }
+      ],
       showTransition: false,
     };
   },
@@ -77,7 +146,7 @@ export default {
     },
     setEquals() {
       const oldNumber = parseFloat(this.oldNumber);
-      const currentNumber = parseFloat( this.currentNumber);
+      const currentNumber = parseFloat(this.currentNumber);
       const operation = this.operation;
       let resultNum;
 
@@ -104,7 +173,8 @@ export default {
 
       // If NaN or Infinity returned
       if (!isFinite(resultNum)) {
-        if (isNaN(resultNum)) { // If result is not a number; set off by, eg, double-clicking operators
+        if (isNaN(resultNum)) {
+          // If result is not a number; set off by, eg, double-clicking operators
           resultNum = "You broke it!";
         }
       }
@@ -138,8 +208,8 @@ export default {
       // When display is equals a zero or number is null clean display
       if (this.display == 0 || !this.currentNumber) {
         currentNumber = "";
-      } 
-      
+      }
+
       // When active a action in buttons, call the current function
       if (!this.isNumber(digit) && !this.isEquals(digit)) {
         return this.setOperation(value);
@@ -153,7 +223,7 @@ export default {
     },
     /* Transition Effect */
     enter: function (el, done) {
-      setTimeout(() => this.showTransition = false, 300);
+      setTimeout(() => (this.showTransition = false), 300);
     },
   },
 };
