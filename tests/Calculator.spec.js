@@ -13,7 +13,7 @@ describe("Integration and Test Calculator", () => {
     const btnEquals = '.btn-equals';
     const resultsExpected = 10;
 
-    // Press the buttons in sequence 5, +, 2, = 
+    // Press the buttons in sequence 5, *, 2, = 
     wrapper.find(btnFive).trigger('click');
     wrapper.find(btnMultiplication).trigger('click');
     wrapper.find(btnTwo).trigger('click');
@@ -22,7 +22,7 @@ describe("Integration and Test Calculator", () => {
     // Get result in data
     const result = wrapper.vm.$data.results;
 
-    // Expected is 10, because 5 + 2 = 10
+    // Expected is 10, because 5 * 2 = 10
     expect(result).toBe(resultsExpected)
   })
 
@@ -37,7 +37,7 @@ describe("Integration and Test Calculator", () => {
     const btnEquals = '.btn-equals';
     const resultsExpected = 2.5;
 
-    // Press the buttons in sequence 5, +, 2, = 
+    // Press the buttons in sequence 5, /, 2, = 
     wrapper.find(btnFive).trigger('click');
     wrapper.find(btnDivision).trigger('click');
     wrapper.find(btnTwo).trigger('click');
@@ -46,7 +46,7 @@ describe("Integration and Test Calculator", () => {
     // Get result in data
     const result = wrapper.vm.$data.results;
 
-    // Expected is 2.5, because 5 + 2 = 2.5
+    // Expected is 2.5, because 5 / 2 = 2.5
     expect(result).toBe(resultsExpected)
   })
 
@@ -85,7 +85,7 @@ describe("Integration and Test Calculator", () => {
     const btnEquals = '.btn-equals';
     const resultsExpected = 3;
 
-    // Press the buttons in sequence 5, +, 2, = 
+    // Press the buttons in sequence 5, -, 2, = 
     wrapper.find(btnFive).trigger('click');
     wrapper.find(btnMinum).trigger('click');
     wrapper.find(btnTwo).trigger('click');
@@ -94,7 +94,7 @@ describe("Integration and Test Calculator", () => {
     // Get result in data
     const result = wrapper.vm.$data.results;
 
-    // Expected is 3, because 5 + 2 = 3
+    // Expected is 3, because 5 - 2 = 3
     expect(result).toBe(resultsExpected)
   })
 })
